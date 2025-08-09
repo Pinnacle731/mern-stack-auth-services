@@ -6,6 +6,7 @@ import { configEnv } from '../config/config';
 import { UserCreateType } from '../types/auth';
 import { getFileFromS3 } from './s3Service';
 import { NODE_ENV_VAL } from '../constants';
+import logger from '../config/logger';
 
 export const generateAccessToken = async (
   payload: JwtPayload,
@@ -16,19 +17,21 @@ export const generateAccessToken = async (
     if (configEnv.nodeEnv !== NODE_ENV_VAL.TEST) {
       // Fetch the private key from S3
       const bucketName = configEnv.awsS3BucketName;
-      const key = 'auth-service/private.pem';
+      const key = configEnv.awsS3URI;
 
       if (!bucketName || !key) {
         throw createHttpError(500, 'S3 bucket name or key not provided');
       }
 
       privateKey = await getFileFromS3(bucketName, key);
+      logger.info('--- s3 connected successfully!');
 
       if (!privateKey) {
         throw createHttpError(500, 'Private key not found in S3');
       }
     } else if (configEnv.privatekey) {
-      privateKey = configEnv.privatekey.replace(/\\n/g, '\n');
+      // privateKey = configEnv.privatekey.replace(/\\n/g, '\n');
+      privateKey = configEnv.privatekey;
     } else {
       throw createHttpError(500, 'Private key not found in configuration');
     }
@@ -42,8 +45,8 @@ export const generateAccessToken = async (
   try {
     const accessToken = sign(payload, privateKey, {
       algorithm: 'RS256',
-      expiresIn: String(configEnv.accessTokenExpiresIn),
-      issuer: String(configEnv.accessTokenIssuer),
+      expiresIn: '1h',
+      issuer: 'Auth-services',
     });
     return accessToken;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -55,8 +58,8 @@ export const generateAccessToken = async (
 export const generateRefreshToken = (payload: JwtPayload): string => {
   const refreshToken = sign(payload, configEnv.refreshTokenSecret, {
     algorithm: 'HS256',
-    expiresIn: String(configEnv.refreshTokenExpiresIn),
-    issuer: String(configEnv.refreshTokenIssuer),
+    expiresIn: '1y',
+    issuer: 'Auth-services',
     jwtid: payload.id.toString(), //embed the refresh token id
   });
   return refreshToken;

@@ -15,10 +15,7 @@ export const TenantCreateService = async (
   const { name, address } = tenantData;
 
   try {
-    const tenant = await tenantRepository.save({
-      name,
-      address,
-    });
+    const tenant = await tenantRepository.save({ name, address });
 
     if (!tenant) {
       const customError = createHttpError(
@@ -44,13 +41,7 @@ export const TenantCreateService = async (
 
 export const TenantGetAllService = async (
   validatedQuery: TenantQueryParams,
-): Promise<
-  | {
-      tenants: IGetAllTenantsDto[];
-      count: number;
-    }
-  | undefined
-> => {
+): Promise<{ tenants: IGetAllTenantsDto[]; count: number } | undefined> => {
   const tenantRepository = await getTenantRepository();
 
   try {
@@ -96,6 +87,7 @@ export const TenantGetByIdService = async (
       const customError = createHttpError(404, 'Tenant not found');
       throw customError;
     }
+
     return tenant;
   } catch (error) {
     if (error instanceof Error) {

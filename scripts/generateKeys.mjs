@@ -14,8 +14,9 @@ const { privateKey, publicKey } = crypto.generateKeyPairSync('rsa', {
   },
 });
 
-console.log('Public Key', publicKey);
-console.log('Private key', privateKey);
+// eslint-disable-next-line no-console
+// console.log('Public Key', publicKey);
+// console.log('Private key', privateKey);
 
 fs.writeFileSync('certs/private.pem', privateKey);
 fs.writeFileSync('certs/public.pem', publicKey);

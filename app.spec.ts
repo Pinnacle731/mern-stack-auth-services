@@ -3,7 +3,7 @@ import app from './src/app';
 import request from 'supertest';
 
 describe('App', () => {
-  const baseUrl = '/pizza-app/auth-service/api/v1';
+  const baseUrl = 'auth-services/api/v1';
   it('should return correct discount amount', () => {
     const discount = calculateDiscount(100, 10);
     expect(discount).toBe(10);

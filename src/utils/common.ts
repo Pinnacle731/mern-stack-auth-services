@@ -1,5 +1,5 @@
 import createHttpError from 'http-errors';
-import { AppDataSource } from '../database/data-source';
+import { AppDataSource } from '../database/data-source-async';
 import { DataSource, Repository } from 'typeorm';
 import { User } from '../database/entities/User';
 import { RefreshToken } from '../database/entities/RefreshToken';

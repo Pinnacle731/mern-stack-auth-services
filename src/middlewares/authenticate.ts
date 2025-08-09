@@ -11,6 +11,7 @@ export default expressjwt({
     rateLimit: true,
   }) as unknown as GetVerificationKey,
   algorithms: ['RS256'],
+  issuer: 'Auth-services',
   getToken(req: Request) {
     const authHeader = req.headers.authorization;
     // Bearer eyjllsdjfljlasdjfljlsadjfljlsdf(tocken)

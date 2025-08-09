@@ -95,10 +95,7 @@ export const registerUser = async (
 
     logger.info('token has been created');
 
-    const resObj: RegisterDataType = {
-      ...user,
-      password: '',
-    };
+    const resObj: RegisterDataType = { ...user, password: '' };
 
     const registerResObject: RegisterResObjectType = {
       code: 201,
@@ -172,10 +169,7 @@ export const loginUser = async (
 
     logger.info('user has been logged in', { id: existUser?.id });
 
-    const resObj = {
-      ...existUser,
-      password: '',
-    };
+    const resObj = { ...existUser, password: '' };
 
     const loginResObject: LoginResObjectType = {
       code: 200,
@@ -193,7 +187,9 @@ export const loginUser = async (
 
 export const self = async (req: AuthRequest, res: Response): Promise<void> => {
   //req.auth.id
+
   const user = await findByIdService(Number(req.auth.sub));
+
   const selfResObject: SelfResObjectType = {
     code: 200,
     status: 'success',
@@ -225,10 +221,7 @@ export const refresh = async (
     */
 
     //generate token
-    const payload: JwtPayload = {
-      sub: req.auth.sub,
-      role: req.auth.role,
-    };
+    const payload: JwtPayload = { sub: req.auth.sub, role: req.auth.role };
     const accessToken = await generateAccessToken(payload);
 
     const existUserName = await findByIdService(Number(req.auth.sub));

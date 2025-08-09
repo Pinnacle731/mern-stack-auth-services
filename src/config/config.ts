@@ -11,17 +11,6 @@ dotenv.config({
   ),
 });
 
-console.log('NODE_ENV =>', process.env.NODE_ENV, 'PORT => ', process.env.PORT);
-
-console.log('current Path', path.resolve(__dirname));
-
-console.log(
-  'folder ENV Path',
-  path.resolve(__dirname, `../../.env.${process.env.NODE_ENV ?? nodeENV}`),
-);
-
-console.log('my host =>', process.env.DB_HOST);
-
 interface Config {
   port: number;
   nodeEnv: string;
@@ -29,6 +18,7 @@ interface Config {
   hostname: string;
 
   // PostgreSQL config
+  isProduction: boolean;
   dbHost: string;
   dbPort: number;
   dbUsername: string;
@@ -53,20 +43,23 @@ interface Config {
   awsAccessKeyId: string;
   awsSecretAccessKey: string;
   awsS3BucketName: string;
+  awsS3RdsSSL: string;
+  awsS3URI: string;
 }
 
 export const configEnv: Config = {
   port: parseInt(process.env.PORT ?? '5501', 10),
-  nodeEnv: process.env.NODE_ENV ?? 'dev',
-  baseUrl: process.env.BASE_URL ?? '/pizza-app/auth-service/api/v1',
+  nodeEnv: process.env.NODE_ENV || 'dev',
+  baseUrl: process.env.BASE_URL ?? '/auth-services/api/v1',
   hostname: process.env.HOSTNAME ?? 'localhost',
 
   // PostgreSQL config
-  dbHost: process.env.DB_HOST ?? '127.0.0.1',
+  isProduction: process.env.NODE_ENV === 'prod',
+  dbHost: process.env.DB_HOST ?? 'localhost',
   dbPort: parseInt(process.env.DB_PORT ?? '5432', 10),
-  dbUsername: process.env.DB_USERNAME ?? 'postgres',
-  dbPassword: process.env.DB_PASSWORD ?? 'Bootstrap',
-  dbDatabase: process.env.DB_DATABASE ?? 'auth_service_typeorm_dev',
+  dbUsername: process.env.DB_USERNAME ?? 'root',
+  dbPassword: process.env.DB_PASSWORD ?? 'root',
+  dbDatabase: process.env.DB_DATABASE ?? 'postgres',
 
   // JWT and Refresh token config
   refreshTokenSecret:
@@ -86,8 +79,10 @@ export const configEnv: Config = {
   rdsSSL: process.env.RDS_SSL ?? '',
 
   //aws
-  awsRegion: process.env.AWS_REGION ?? 'ap-south-1',
-  awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
-  awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
-  awsS3BucketName: 'mern-stack-service-bucket',
+  awsRegion: process.env.AWS_REGION!,
+  awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+  awsSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  awsS3BucketName: process.env.AWS_S3_BUCKET_NAME!,
+  awsS3RdsSSL: process.env.AWS_RDS_SSL!,
+  awsS3URI: process.env.AWS_S3_URI!,
 };

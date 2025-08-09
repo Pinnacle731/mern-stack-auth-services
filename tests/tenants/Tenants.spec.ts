@@ -11,7 +11,7 @@ describe('create tenants in the database', () => {
   let connection: DataSource;
   let jwks: ReturnType<typeof createJWKSMock>;
   let adminToken: string;
-  const baseUrl = '/pizza-app/auth-service/api/v1/tenants';
+  const baseUrl = '/auth-services/api/v1/tenants';
 
   beforeAll(async () => {
     jwks = createJWKSMock('http://localhost:5501');
@@ -25,10 +25,7 @@ describe('create tenants in the database', () => {
     await connection.synchronize();
     jwks.start();
 
-    adminToken = jwks.token({
-      sub: '1',
-      role: Roles.ADMIN,
-    });
+    adminToken = jwks.token({ sub: '1', role: Roles.ADMIN });
   });
 
   afterAll(async () => {
@@ -41,10 +38,7 @@ describe('create tenants in the database', () => {
 
   describe('POST /tenants', () => {
     it('should return a 201 status code', async () => {
-      const tenantData = {
-        name: 'Tenant name',
-        address: 'Tenant address',
-      };
+      const tenantData = { name: 'Tenant name', address: 'Tenant address' };
       const response = await request(app)
         .post(baseUrl)
         .set('Cookie', [`accessToken=${adminToken}`])
@@ -54,10 +48,7 @@ describe('create tenants in the database', () => {
     });
 
     it('should create a tenant in the database', async () => {
-      const tenantData = {
-        name: 'Tenant name',
-        address: 'Tenant address',
-      };
+      const tenantData = { name: 'Tenant name', address: 'Tenant address' };
 
       await request(app)
         .post(baseUrl)
@@ -72,10 +63,7 @@ describe('create tenants in the database', () => {
     });
 
     it('should return 401 if user is not autheticated', async () => {
-      const tenantData = {
-        name: 'Tenant name',
-        address: 'Tenant address',
-      };
+      const tenantData = { name: 'Tenant name', address: 'Tenant address' };
 
       const response = await request(app).post(baseUrl).send(tenantData);
       expect(response.statusCode).toBe(401);
@@ -87,15 +75,9 @@ describe('create tenants in the database', () => {
     });
 
     it('should return 403 if user is not an admin', async () => {
-      const managerToken = jwks.token({
-        sub: '1',
-        role: Roles.MANAGER,
-      });
+      const managerToken = jwks.token({ sub: '1', role: Roles.MANAGER });
 
-      const tenantData = {
-        name: 'Tenant name',
-        address: 'Tenant address',
-      };
+      const tenantData = { name: 'Tenant name', address: 'Tenant address' };
 
       const response = await request(app)
         .post(baseUrl)
@@ -155,10 +137,7 @@ describe('create tenants in the database', () => {
     it('should update a tenant', async () => {
       const tenant = await createTenant(connection.getRepository(Tenant));
 
-      const updatedData = {
-        name: 'Test tenant',
-        address: 'Test address',
-      };
+      const updatedData = { name: 'Test tenant', address: 'Test address' };
 
       const response = await request(app)
         .patch(`${baseUrl}/${tenant.id}`)
@@ -169,9 +148,7 @@ describe('create tenants in the database', () => {
       expect(response.body.data.tenantUpdateDto.name).toBe(updatedData.name);
 
       const tenantRepository = connection.getRepository(Tenant);
-      const updatedTenant = await tenantRepository.findOneBy({
-        id: tenant.id,
-      });
+      const updatedTenant = await tenantRepository.findOneBy({ id: tenant.id });
       expect(updatedTenant?.name).toBe(updatedData.name);
     });
   });

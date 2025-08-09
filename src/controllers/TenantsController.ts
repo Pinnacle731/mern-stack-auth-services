@@ -152,20 +152,11 @@ export const updateTenant = async (
       next(customError);
     }
 
-    await TenantUpdateService(Number(tenant?.id), {
-      name,
-      address,
-    });
+    await TenantUpdateService(Number(tenant?.id), { name, address });
 
-    logger.info('Tenant has been updated', {
-      id: Number(tenantId),
-    });
+    logger.info('Tenant has been updated', { id: Number(tenantId) });
 
-    const resObj = {
-      id: Number(tenant?.id),
-      name: name,
-      address: address,
-    };
+    const resObj = { id: Number(tenant?.id), name: name, address: address };
 
     const tenantUpdateResObject: ITenantUpdateResObject = {
       code: 200,
@@ -203,9 +194,7 @@ export const deleteTenant = async (
 
     await TenantDeleteService(Number(tenant?.id));
 
-    logger.info('Tenant has been deleted', {
-      id: Number(tenant?.id),
-    });
+    logger.info('Tenant has been deleted', { id: Number(tenant?.id) });
 
     const resObj = {
       id: Number(tenant?.id),

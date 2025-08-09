@@ -1,5 +1,5 @@
 # Use the official Node.js image as our base
-FROM node:22.12.0
+FROM node:22.18.0
 
 # blow given process to run when docker build
 

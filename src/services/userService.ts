@@ -81,9 +81,7 @@ export const findByEmailWithPasswordService = async (
       'role',
       'password',
     ],
-    relations: {
-      tenant: true,
-    },
+    relations: { tenant: true },
   });
   if (!user) {
     const error = createHttpError(404, 'user does not exist!');
@@ -97,11 +95,13 @@ export const findByIdService = async (id: number): Promise<User | null> => {
   // const userRepository = AppDataSource.getRepository(User);
   const userRepository = await getUserRepository();
 
-  const user = await userRepository
-    .createQueryBuilder('user')
-    .leftJoinAndSelect('user.tenant', 'tenant') // Include tenant relation
-    .where('user.id = :id', { id }) // Match by user id
-    .getOne();
+  // const user = await userRepository
+  //   .createQueryBuilder('user')
+  //   .leftJoinAndSelect('user.tenant', 'tenant') // Include tenant relation
+  //   .where('user.id = :id', { id }) // Match by user id
+  //   .getOne();
+
+  const user = await userRepository.findOne({ where: { id } });
 
   return user;
 };
@@ -136,10 +136,7 @@ export const updateUserService = async (
 
 export const getAllUsersService = async (
   validatedQuery: UserQueryParams,
-): Promise<{
-  users: User[];
-  count: number;
-}> => {
+): Promise<{ users: User[]; count: number }> => {
   try {
     // sonarqube-ignore-line
     // const userRepository = AppDataSource.getRepository(User);
@@ -157,9 +154,7 @@ export const getAllUsersService = async (
       );
     }
     if (validatedQuery.role) {
-      queryBuilder.andWhere('user.role = :role', {
-        role: validatedQuery.role,
-      });
+      queryBuilder.andWhere('user.role = :role', { role: validatedQuery.role });
     }
 
     const result = await queryBuilder

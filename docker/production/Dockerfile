@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:22.12.0-alpine as builder
+FROM node:22.18.0-alpine as builder
 
 # Set the working directory
 WORKDIR /auth-app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production
-FROM node:22.12.0-alpine as production
+FROM node:22.18.0-alpine as production
 
 # Set environment to production
 ENV NODE_ENV=prod
