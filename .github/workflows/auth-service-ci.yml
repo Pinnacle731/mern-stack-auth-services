@@ -69,7 +69,7 @@ jobs:
 
   build-and-push-docker-prod:
     name: Build and Push Docker Image in production mode
-    # needs: build-and-test
+    needs: build-and-test
     # needs: sonar-cloud-scan
     runs-on: ubuntu-latest
     env:
