@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
 import { configEnv } from '../config/config';
-import { getFileFromS3 } from '../services/s3Service';
+// import { getFileFromS3 } from '../services/s3Service';
 import logger from '../config/logger';
 import createHttpError from 'http-errors';
 
@@ -10,10 +10,10 @@ export const AppDataSource = async (): Promise<DataSource | undefined> => {
 
   try {
     // Load the SSL certificate synchronously
-    const rdsSSL = await getFileFromS3(
-      configEnv.awsS3BucketName,
-      configEnv.awsS3RdsSSL,
-    );
+    // const rdsSSL = await getFileFromS3(
+    //   configEnv.awsS3BucketName,
+    //   configEnv.awsS3RdsSSL,
+    // );
     // Create the DataSource instance
     const dataSource = new DataSource({
       type: 'postgres',
@@ -30,14 +30,13 @@ export const AppDataSource = async (): Promise<DataSource | undefined> => {
       /* dist folder in use only developing mode build `npm build` then use it `npm start`*/
       // entities: ['dist/src/database/entities/*.{ts,js}'],
       // migrations: ['dist/src/database/migrations/*.{ts,js}'],
-
-      ssl:
-        configEnv.nodeEnv === 'prod'
-          ? {
-              ca: rdsSSL,
-              rejectUnauthorized: false,
-            }
-          : false,
+      ssl: false,
+      // configEnv.nodeEnv === 'prod'
+      //   ? {
+      //       ca: rdsSSL,
+      //       rejectUnauthorized: false,
+      //     }
+      //   : false,
     });
 
     return dataSource;
