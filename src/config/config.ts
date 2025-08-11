@@ -4,20 +4,20 @@ import { NODE_ENV_VAL } from '../constants';
 
 const nodeENV: string = NODE_ENV_VAL.PRODUCTION;
 
-if (nodeENV === 'prod') {
-  console.log('-----production env-----');
-}
-
-if (nodeENV === 'dev') {
-  console.log('-----development env-----');
-}
-
 dotenv.config({
   path: path.resolve(
     __dirname,
     `../../.env.${process.env.NODE_ENV ?? nodeENV}`,
   ),
 });
+
+if (process.env.NODE_ENV === 'prod') {
+  console.log('-----production env-----');
+}
+
+if (process.env.NODE_ENV === 'dev') {
+  console.log('-----development env-----');
+}
 
 interface Config {
   port: number;
