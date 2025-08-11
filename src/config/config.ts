@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 import { NODE_ENV_VAL } from '../constants';
 
-const nodeENV: string = NODE_ENV_VAL.PRODUCTION;
+const nodeENV: string = NODE_ENV_VAL.DEVELOPMENT;
 
 dotenv.config({
   path: path.resolve(
