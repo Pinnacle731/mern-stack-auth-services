@@ -27,6 +27,7 @@
 # docker images command
 
 - docker build -t my-auth-service:latest -f docker/production/Dockerfile .
+- docker build -t my-auth-service:latest -f docker/development/Dockerfile .
 
 - docker run -p 5503:5503 --name my-auth-service-container my-auth-service:latest
 

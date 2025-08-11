@@ -9,7 +9,7 @@ import { Roles } from '../../src/types';
 import { AppDataSourceInitialize } from '../../src/utils/common';
 
 configEnv.baseUrl = 'test-secret';
-describe('GET /auth-services/api/v1/auth/self', () => {
+describe('GET /pizza-app/auth-service/api/v1/auth/self', () => {
   let connection: DataSource;
   let jwks: ReturnType<typeof createJWKSMock>;
 
@@ -37,11 +37,14 @@ describe('GET /auth-services/api/v1/auth/self', () => {
 
   describe('Given all fields', () => {
     it('should return the 200 status code', async () => {
-      const accessToken = jwks.token({ sub: '5', role: Roles.CUSTOMER });
+      const accessToken = jwks.token({
+        sub: '5',
+        role: Roles.CUSTOMER,
+      });
 
       const response = await request(app)
-        .get('/auth-services/api/v1/auth/self')
-        .set('Cookie', [`accessToken=${accessToken}`])
+        .get('/pizza-app/auth-service/api/v1/auth/self')
+        .set('Cookie', [`accessToken=${accessToken};`])
         .send();
 
       expect(response.statusCode).toBe(200);
@@ -63,10 +66,13 @@ describe('GET /auth-services/api/v1/auth/self', () => {
       });
 
       // Generate token
-      const accessToken = jwks.token({ sub: String(data.id), role: data.role });
+      const accessToken = jwks.token({
+        sub: String(data.id),
+        role: data.role,
+      });
       // Add token to cookie
       const response = await request(app)
-        .get('/auth-services/api/v1/auth/self')
+        .get('/pizza-app/auth-service/api/v1/auth/self')
         .set('Cookie', [`accessToken=${accessToken};`])
         .send();
 
@@ -93,11 +99,14 @@ describe('GET /auth-services/api/v1/auth/self', () => {
         role: Roles.CUSTOMER,
       });
       // Generate token
-      const accessToken = jwks.token({ sub: String(data.id), role: data.role });
+      const accessToken = jwks.token({
+        sub: String(data.id),
+        role: data.role,
+      });
 
       // Add token to cookie
       const response = await request(app)
-        .get('/auth-services/api/v1/auth/self')
+        .get('/pizza-app/auth-service/api/v1/auth/self')
         .set('Cookie', [`accessToken=${accessToken};`])
         .send();
       // Assert
@@ -117,11 +126,14 @@ describe('GET /auth-services/api/v1/auth/self', () => {
         password: 'Parth@123',
       };
       const userRepository = connection.getRepository(User);
-      await userRepository.save({ ...userData, role: Roles.CUSTOMER });
+      await userRepository.save({
+        ...userData,
+        role: Roles.CUSTOMER,
+      });
 
       // Add token to cookie
       const response = await request(app)
-        .get('/auth-services/api/v1/auth/self')
+        .get('/pizza-app/auth-service/api/v1/auth/self')
         .send();
       // Assert
       expect(response.statusCode).toBe(401);

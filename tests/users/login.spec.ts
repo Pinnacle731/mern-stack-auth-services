@@ -7,9 +7,9 @@ import { User } from '../../src/database/entities/User';
 import { Roles } from '../../src/types';
 import { AppDataSourceInitialize } from '../../src/utils/common';
 
-describe('POST /auth-services/api/v1/auth/login', () => {
+describe('POST /pizza-app/auth-service/api/v1/auth/login', () => {
   let connection: DataSource;
-  const baseUrl = '/auth-services/api/v1/auth/login';
+  const baseUrl = '/pizza-app/auth-service/api/v1/auth/login';
   const UserInfo = () => {
     const userData = {
       userName: 'parth731',

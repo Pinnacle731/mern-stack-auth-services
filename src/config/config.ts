@@ -2,7 +2,15 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 import { NODE_ENV_VAL } from '../constants';
 
-const nodeENV: string = NODE_ENV_VAL.DEVELOPMENT;
+const nodeENV: string = NODE_ENV_VAL.PRODUCTION;
+
+if (nodeENV === 'prod') {
+  console.log('-----production env-----');
+}
+
+if (nodeENV === 'dev') {
+  console.log('-----development env-----');
+}
 
 dotenv.config({
   path: path.resolve(
@@ -50,7 +58,7 @@ interface Config {
 export const configEnv: Config = {
   port: parseInt(process.env.PORT ?? '5501', 10),
   nodeEnv: process.env.NODE_ENV || 'dev',
-  baseUrl: process.env.BASE_URL ?? '/auth-services/api/v1',
+  baseUrl: process.env.BASE_URL ?? '/pizza-app/auth-service/api/v1',
   hostname: process.env.HOSTNAME ?? 'localhost',
 
   // PostgreSQL config

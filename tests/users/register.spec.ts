@@ -13,11 +13,13 @@ import { configEnv } from '../../src/config/config';
 
 jest.setTimeout(20000); // Reduce test timeout for optimization
 
-jest.mock('../../src/services/s3Service', () => ({ getFileFromS3: jest.fn() }));
+jest.mock('../../src/services/s3Service', () => ({
+  getFileFromS3: jest.fn(),
+}));
 
-describe('POST /auth-services/api/v1/auth/register', () => {
+describe('POST /pizza-app/auth-service/api/v1/auth/register', () => {
   let connection: DataSource;
-  const baseUrl = '/auth-services/api/v1/auth/register';
+  const baseUrl = '/pizza-app/auth-service/api/v1/auth/register';
 
   const mockUser = {
     userName: 'parth731',
@@ -25,7 +27,6 @@ describe('POST /auth-services/api/v1/auth/register', () => {
     lastName: 'Dangroshiya',
     email: 'BxPnM@example.com',
     password: 'Parth@123',
-    role: 'customer',
   };
 
   beforeAll(async () => {
@@ -47,7 +48,6 @@ describe('POST /auth-services/api/v1/auth/register', () => {
   describe('Successful Registration', () => {
     it('should create a new user and return 201 status code', async () => {
       const response = await request(app).post(baseUrl).send(mockUser);
-
       expect(response.statusCode).toBe(201);
       expect(response.body.message).toBe('user created!!');
       expect(response.body.data.registerUserDto).toHaveProperty('id');
