@@ -38,7 +38,7 @@ COPY --from=builder /auth-app/dist ./
 COPY --from=builder /auth-app/public ./
 
 # Copy the .env.prod file to the root of the project
-COPY .env.prod ./
+COPY --from=builder /auth-app/.env.prod ./
 
 # Expose the application port
 EXPOSE 5501
