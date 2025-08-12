@@ -7,17 +7,15 @@ import userRouter from './routes/userRouter';
 import { globalErrorHandler } from './middlewares/globalErrorHandler';
 import { configEnv } from './config/config';
 import path from 'path';
-import { fileURLToPath } from 'url';
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(express.static('public'));
 app.use(cookieParser());
 app.use(express.json());
 
 // Serve static files from .well-known
+console.log('---__dirname---', __dirname);
 app.use(
   '/.well-known',
   express.static(path.join(__dirname, '../public/.well-known')),
