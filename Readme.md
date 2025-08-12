@@ -107,4 +107,6 @@ npm run migration:revert -- -d src/database/data-source.ts
 
 docker login -u pinnacle731
 
+- commit message test
+
 - how to connect rds: https://www.youtube.com/watch?v=fF-5ZX_cDz4
