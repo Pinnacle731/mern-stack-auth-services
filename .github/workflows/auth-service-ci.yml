@@ -75,7 +75,7 @@ jobs:
     env:
       IMAGE_NAME: pinnacle731/mern-space-auth-service-prod # pinnacle731/mern-stack-auth-service:build-2
       IMAGE_TAG: build-${{ github.run_number }}
-    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'|| github.ref == 'refs/heads/development') && github.event_name == 'push'
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'|| github.ref == 'refs/heads/production') && github.event_name == 'push'
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
