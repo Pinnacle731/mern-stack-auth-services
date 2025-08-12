@@ -1,4 +1,4 @@
-# migration command
+## migration command
 
 - first, web application start then according using run command
 
@@ -24,14 +24,51 @@
 
 - new added
 
-# docker images command
+## docker images command
 
-- docker build -t my-auth-service:latest -f docker/production/Dockerfile .
-- docker build -t my-auth-service:latest -f docker/development/Dockerfile .
+```bash
+docker build -t my-auth-service:latest -f docker/production/Dockerfile .
 
-- docker run -p 5503:5503 --name my-auth-service-container my-auth-service:latest
+docker build -t my-auth-service:latest -f docker/development/Dockerfile .
 
-- docker build -t pinnacle731/mern-space-auth-service-dev -f .\docker\development\Dockerfile .
+docker run -p 5503:5503 --name my-auth-service-container my-auth-service:latest
+
+# --------- build & run local development image
+docker build -t my-auth-service-dev:latest -f .\docker\development\Dockerfile .
+
+docker run -p 5503:5503 --name my-auth-service-container my-auth-service-dev:latest
+
+# --------- build & run local production
+docker build -t my-auth-service-dev:latest -f .\docker\development\Dockerfile .
+
+docker run -p 5503:5503 --name my-auth-service-container my-auth-service-prod:latest
+
+# -------------- run production image this project ---------------------
+docker build --env-file "${pwd}/.env.prod" -p 5501:5501 pinnacle731/mern-space-auth-service-prod:build-23
+
+# Build the image from Dockerfile in current directory
+docker build -t yourDockerhubUserName/your-image-name:tag .
+docker build -t pinnacle731/mern-space-auth-service-prod:build-1 .
+
+docker login
+
+docker push pinnacle731/mern-space-auth-service-prod:build-1
+
+docker pull yourdockerhubusername/your-image-name:tag
+docker pull pinnacle731/mern-space-auth-service-prod:build-1
+
+docker run -d -p host_port:container_port yourdockerhubusername/your-image-name:tag
+
+# Linux / Git Bash / WSL:
+docker run --env-file "$(pwd)/.env.prod" -p 5501:5501 pinnacle731/mern-space-auth-service-prod:build-1
+# PowerShell:
+docker run --env-file "${pwd}\.env.prod" -p 5501:5501 pinnacle731/mern-space-auth-service-prod:build-1
+
+# Tag as latest
+docker tag pinnacle731/mern-space-auth-service-prod:build-1 pinnacle731/mern-space-auth-service-prod:latest
+docker push pinnacle731/mern-space-auth-service-prod:latest
+
+```
 
 ```javascript
 console.log('NODE_ENV =>', process.env.NODE_ENV, 'PORT => ', process.env.PORT);

@@ -6,6 +6,7 @@ import tenantRouter from './routes/tenantRouter';
 import userRouter from './routes/userRouter';
 import { globalErrorHandler } from './middlewares/globalErrorHandler';
 import { configEnv } from './config/config';
+import path from 'path';
 
 const app = express();
 
@@ -14,10 +15,10 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Serve static files from .well-known
-// app.use(
-//   '/.well-known',
-//   express.static(path.join(process.cwd(), 'public/.well-known')),
-// );
+app.use(
+  '/.well-known',
+  express.static(path.join(process.cwd(), 'public/.well-known')),
+);
 
 app.get(`${configEnv.baseUrl}/`, async (req: Request, res: Response) => {
   res.send('Welcome to the API!!!');
