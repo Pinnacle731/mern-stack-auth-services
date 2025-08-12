@@ -34,8 +34,11 @@ RUN npm ci --ignore-scripts
 # Copy the build output from the builder stage
 COPY --from=builder /auth-app/dist ./
 
+# Copy public assets (for Express static serving)
+COPY --from=builder /auth-app/public ./
+
 # Copy the .env.prod file to the root of the project
-# COPY .env.prod ./
+COPY .env.prod ./
 
 # Expose the application port
 EXPOSE 5501
