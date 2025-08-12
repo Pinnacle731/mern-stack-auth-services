@@ -6,7 +6,7 @@ on:
       - production
   push:
     branches:
-      - productions
+      - production
       # - development
       # - master
 jobs:
