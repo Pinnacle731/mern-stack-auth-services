@@ -35,17 +35,17 @@ jobs:
       BASE_URL: '/pizza-app/auth-service/api/v1'
       PORT: 5501
       # NODE_ENV: 'test'
-    # steps:
-    #   - name: action checkout
-    #     uses: actions/checkout@v4
-    #   - name: install dependencies
-    #     run: npm ci
-    #   - name: Run eslint
-    #     run: npm run lint
-    #   - name: Verify Database Connectivity
-    #     run: |
-    #       pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USERNAME || exit 1
-    #       echo "Database is reachable."
+    steps:
+      - name: action checkout
+        uses: actions/checkout@v4
+      - name: install dependencies
+        run: npm ci
+      - name: Run eslint
+        run: npm run lint
+      - name: Verify Database Connectivity
+        run: |
+          pg_isready -h $DB_HOST -p $DB_PORT -U $DB_USERNAME || exit 1
+          echo "Database is reachable."
     #   - name: run tests and coverage
     #     run: npm run test
     #   - name: Project Build
